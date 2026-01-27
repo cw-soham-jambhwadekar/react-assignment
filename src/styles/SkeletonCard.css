@@ -1,0 +1,77 @@
+:root {
+  --primary-color: #8d8d8d;
+  --secondary-color: #c1c1c1;
+}
+
+.skeleton-card-body{
+    background-color: white;
+    width: 95%;
+    border-radius: 10px;
+    position: relative;
+    padding-bottom: 70px;
+    border: 1px solid #ddd;
+}
+
+.img-wrapper{
+    height: 177px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+}
+
+.skeleton-card-button {
+    position: absolute;
+    bottom: 15px;
+    left: 16px;
+    width: 90%;
+    height: 29px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.skeleton-info {
+    margin-left: 20px;
+}
+
+#car-name {
+    margin-top: 15px;
+    width: 50%;
+    height: 15px;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}
+
+#car-details {
+    margin-top: 15px;
+    width: 90%;
+    height: 15px;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}
+
+#car-price {
+    margin-top: 40px;
+    width: 30%;
+    height: 15px;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}
+
+#car-emi {
+    margin-top: 10px;
+    width: 35%;
+    height: 8px;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}

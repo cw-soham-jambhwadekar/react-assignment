@@ -1,0 +1,4 @@
+export const UPDATE_FUEL = "UPDATE_FUEL"
+export const UPDATE_BUDGET = "UPDATE_BUDGET"
+export const UPDATE_MAKE = "UPDATE_MAKE"
+export const UPDATE_CITY = "UPDATE_CITY"

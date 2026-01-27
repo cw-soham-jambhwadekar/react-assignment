@@ -1,0 +1,2 @@
+export const UPDATE_CITIES = "UPDATE_CITIES"
+export const UPDATE_MAKES = "UPDATE_MAKES"
