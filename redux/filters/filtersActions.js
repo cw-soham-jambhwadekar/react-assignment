@@ -1,4 +1,4 @@
-import { UPDATE_BUDGET, UPDATE_CITY, UPDATE_FUEL, UPDATE_MAKE } from "./filtersTypes";
+import { RESET, UPDATE_BUDGET, UPDATE_CITY, UPDATE_FUEL, UPDATE_MAKE } from "./filtersTypes";
 
 
 export function updateFuel(payload) {
@@ -26,5 +26,11 @@ export function updateCity(payload) {
     return {
         type : UPDATE_CITY,
         payload
+    }
+}
+
+export function resetFilters() {
+    return {
+        type : RESET
     }
 }

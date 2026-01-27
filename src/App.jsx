@@ -47,7 +47,7 @@ function App() {
     <>
       <Navbar />
 
-      <div data-testId="parent" id='parent'>
+      <div data-testid="parent" id='parent'>
         <FilterBox />
         <ContentBox />
       </div>

@@ -1,4 +1,4 @@
-import { UPDATE_BUDGET, UPDATE_CITY, UPDATE_FUEL, UPDATE_MAKE } from "./filtersTypes";
+import { RESET, UPDATE_BUDGET, UPDATE_CITY, UPDATE_FUEL, UPDATE_MAKE } from "./filtersTypes";
 
 
 const initialState = {
@@ -37,6 +37,9 @@ const filtersReducer = (state = initialState, action) => {
                 ...state,
                 city: action.payload
             }
+
+        case RESET:
+            return initialState;
 
         default: return state
 

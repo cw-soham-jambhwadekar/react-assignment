@@ -55,3 +55,11 @@
     border: none;
     cursor: pointer;
 }
+
+#not-found {
+    text-align: center;
+    margin-top: 80px;
+    margin-left: 250px;
+    font-size: small;
+    font-weight: 100;
+}

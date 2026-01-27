@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../styles/Carousel.css"
 
-function Carousel({ images = ["https://imgd.aeplcdn.com/0x0/cw/static/icons/svg/no-image.svg"] }) {
+function Carousel({ images }) {
   const [index, setIndex] = useState(0);
 
   if (!images.length) return null;
@@ -20,6 +20,9 @@ function Carousel({ images = ["https://imgd.aeplcdn.com/0x0/cw/static/icons/svg/
         src={images[index]}
         alt={`slide-${index}`}
         className="carousel-image"
+        onError={(e) => {
+          e.currentTarget.src = "https://imgd.aeplcdn.com/0x0/cw/static/icons/svg/no-image.svg";
+        }}
       />
 
       {images.length > 1 && (

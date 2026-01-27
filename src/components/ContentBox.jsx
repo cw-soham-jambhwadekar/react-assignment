@@ -8,21 +8,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateCarData, updatePaginatedCarData } from "../../redux/data/dataActions";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
+import { BiSolidCarCrash } from "react-icons/bi";
 
 function ContentBox() {
-  const fuel = useSelector(state => state.filters.fuel)
-  const budget = useSelector(state => state.filters.budget)
-  const make = useSelector(state => state.filters.make)
-  const city = useSelector(state => state.filters.city)
+  const fuel = useSelector((state) => state.filters.fuel);
+  const budget = useSelector((state) => state.filters.budget);
+  const make = useSelector((state) => state.filters.make);
+  const city = useSelector((state) => state.filters.city);
 
-  const carData = useSelector(state => state.data.carData);
-  const paginatedCarData = useSelector(state => state.data.paginatedCarData);
+  const carData = useSelector((state) => state.data.carData);
+  const paginatedCarData = useSelector((state) => state.data.paginatedCarData);
   const dispatch = useDispatch();
 
   const [sortKey, setSortKey] = useState("BEST_MATCH");
   const [nextPageUrl, setNextPageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [hide, setHide] = useState(false);
   const [sortMakeYear, setSortMakeYear] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const observerRef = useRef(null);
   const bottomRef = useRef(null);
@@ -30,11 +33,13 @@ function ContentBox() {
   const isFetchingRef = useRef(false);
   const nextPageUrlRef = useRef(null);
 
-  const [currentPage, setCurrentPage] = useState(0);
-
   useEffect(() => {
     nextPageUrlRef.current = nextPageUrl;
   }, [nextPageUrl]);
+
+  useEffect(() => {
+    isFetchingRef.current = loading;
+  }, [loading]);
 
   async function getData() {
     try {
@@ -67,26 +72,32 @@ function ContentBox() {
       console.error("Fetch error:", err);
     } finally {
       setLoading(false);
+      scrollToTop();
     }
   }
 
-
-  async function loadMore() {
-    if (!nextPageUrlRef.current || isFetchingRef.current) return;
+  const loadMore = async () => {
+    if (!nextPageUrlRef.current || isFetchingRef.current || loading) return;
 
     try {
       isFetchingRef.current = true;
       setLoading(true);
-      console.log("load more called");
 
       const res = await axios.get(nextPageUrlRef.current);
 
       if (sortMakeYear) {
-        const arr = [...res.data.stocks].sort((a, b) => b.makeYear - a.makeYear);
-        console.log(arr);
+        const arr = [...res.data.stocks].sort(
+          (a, b) => b.makeYear - a.makeYear
+        );
         dispatch(updatePaginatedCarData([...paginatedCarData, arr]));
       } else {
         dispatch(updateCarData([...carData, ...res.data.stocks]));
+      }
+
+      if (res.data.stocks.length == 0) {
+        setHide(true);
+      } else {
+        setHide(false);
       }
 
       setNextPageUrl(res.data.nextPageUrl || null);
@@ -99,7 +110,6 @@ function ContentBox() {
   }
 
   useEffect(() => {
-    
     const debounce = setTimeout(() => {
       getData();
     }, 300);
@@ -107,14 +117,17 @@ function ContentBox() {
   }, [fuel, budget, sortKey, make, city, sortMakeYear]);
 
   useEffect(() => {
-    if (sortMakeYear) return;
+    if (sortMakeYear || loading) return;
 
     if (observerRef.current) observerRef.current.disconnect();
 
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
-
-        if (entry.isIntersecting && nextPageUrlRef.current && !isFetchingRef.current) {
+        if (
+          entry.isIntersecting &&
+          nextPageUrlRef.current &&
+          !isFetchingRef.current
+        ) {
           loadMore();
         }
       },
@@ -130,8 +143,7 @@ function ContentBox() {
     }
 
     return () => observerRef.current?.disconnect();
-
-  }, [sortMakeYear]);
+  }, [sortMakeYear, loading]);
 
   const handleSortOptions = (e) => {
     const value = e.target.value;
@@ -173,11 +185,11 @@ function ContentBox() {
       </div>
 
       <div id="content-grid" ref={scrollRef}>
-
-        {(sortMakeYear ? (paginatedCarData[currentPage] || []) : carData)
-          .map((ele, id) => (
+        {(sortMakeYear ? paginatedCarData[currentPage] || [] : carData).map(
+          (ele, id) => (
             <Card key={`${ele.id || id}`} data={ele} />
-          ))}
+          )
+        )}
 
         {loading && (
           <>
@@ -188,15 +200,25 @@ function ContentBox() {
           </>
         )}
 
-        {!sortMakeYear && (
-          <div ref={bottomRef} style={{ height: "20px", width: "100%", clear: "both" }} />
+        {(paginatedCarData.length == 0) && (carData.length == 0) && (
+          <div id="not-found">
+            <BiSolidCarCrash size={150} />
+            <h1>No Cars Found</h1>
+          </div>
+        )}
+
+        {!sortMakeYear && !loading && nextPageUrl && !hide && (
+          <div
+            ref={bottomRef}
+            style={{ height: "20px", width: "100%", clear: "both" }}
+          />
         )}
       </div>
 
       {sortMakeYear && (
         <div id="page-nav">
           <button onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}>
-           <MdOutlineArrowBackIosNew />
+            <MdOutlineArrowBackIosNew />
             prev
           </button>
           {currentPage}

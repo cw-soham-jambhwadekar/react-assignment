@@ -4,10 +4,6 @@ import Carousel from './Carousel';
 function Card({data}) {
     return (
         <div data-testid="card" className='card-body'>
-            {/* <div className='img-wrapper'>
-                <img src={data.stockImages[0]} alt="" />
-                
-            </div> */}
 
             <Carousel images={data.stockImages?.length > 0 ? data.stockImages : ["https://imgd.aeplcdn.com/0x0/cw/static/icons/svg/no-image.svg"]} />
 

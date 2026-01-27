@@ -12,7 +12,7 @@ function CityFilter() {
     const CITY_MAP = useSelector(state => state.filtersData.cities)
     const dispatch = useDispatch();
 
-    const [cityOpen, setCityOpen] = useState(false);
+    const [cityOpen, setCityOpen] = useState(true);
     const [inputCity, setInputCity] = useState("");
     const timer = useRef(null);
 

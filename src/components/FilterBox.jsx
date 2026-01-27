@@ -8,7 +8,7 @@ import { VscDash } from "react-icons/vsc";
 import { CiFilter } from "react-icons/ci";
 import CityFilter from './CityFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateBudget, updateFuel, updateMake } from '../../redux/filters/filtersActions';
+import { resetFilters, updateBudget, updateFuel, updateMake } from '../../redux/filters/filtersActions';
 
 function FilterBox() {
     const fuel = useSelector(state => state.filters.fuel)
@@ -42,7 +42,7 @@ function FilterBox() {
                     <h1>Filters</h1>
                 </div>
 
-                <h1 id='clear-all'>Clear All</h1>
+                <h1 id='clear-all' onClick={() => dispatch(resetFilters())}>Clear All</h1>
             </div>
 
             <div id='budget-box'>
