@@ -7,14 +7,14 @@ import { RiArrowUpSLine } from "react-icons/ri";
 import { VscDash } from "react-icons/vsc";
 import { CiFilter } from "react-icons/ci";
 import CityFilter from './CityFilter';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { resetFilters, updateBudget, updateFuel, updateMake } from '../../redux/filters/filtersActions';
+import { useFilters, useFiltersData } from '../hooks/reduxHooks';
 
 function FilterBox() {
-    const fuel = useSelector(state => state.filters.fuel)
-    const budget = useSelector(state => state.filters.budget)
-    const make = useSelector(state => state.filters.make)
-    const MAKE_MAP = useSelector(state => state.filtersData.makes);
+    const {fuel , budget , make} = useFilters();
+    const {MAKE_MAP} = useFiltersData();
+
     const dispatch = useDispatch();
 
     const [min, max] = budget;

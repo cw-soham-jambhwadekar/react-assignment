@@ -1,23 +1,20 @@
 import Card from "./Card";
 import "../styles/ContentBox.css";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState} from "react";
 import axios from "axios";
 import { SORT_TYPE } from "../utils";
 import SkeletonCard from "./SkeletonCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { updateCarData, updatePaginatedCarData } from "../../redux/data/dataActions";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { BiSolidCarCrash } from "react-icons/bi";
+import { useData, useFilters } from "../hooks/reduxHooks";
 
 function ContentBox() {
-  const fuel = useSelector((state) => state.filters.fuel);
-  const budget = useSelector((state) => state.filters.budget);
-  const make = useSelector((state) => state.filters.make);
-  const city = useSelector((state) => state.filters.city);
+  const {fuel, budget, make, city} = useFilters();
+  const {carData , paginatedCarData} = useData();
 
-  const carData = useSelector((state) => state.data.carData);
-  const paginatedCarData = useSelector((state) => state.data.paginatedCarData);
   const dispatch = useDispatch();
 
   const [sortKey, setSortKey] = useState("BEST_MATCH");

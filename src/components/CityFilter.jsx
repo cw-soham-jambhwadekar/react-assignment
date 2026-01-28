@@ -6,10 +6,14 @@ import { getCityOptions, POPUlAR_CITY_MAP } from '../utils';
 import { GoSearch } from "react-icons/go";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCity } from '../../redux/filters/filtersActions';
+import { useFilters, useFiltersData } from '../hooks/reduxHooks';
 
 function CityFilter() {
-    const city = useSelector(state => state.filters.city);
-    const CITY_MAP = useSelector(state => state.filtersData.cities)
+    //const city = useSelector(state => state.filters.city);
+    //const CITY_MAP = useSelector(state => state.filtersData.cities)
+    const {city} = useFilters();
+    const {CITY_MAP} = useFiltersData();
+   
     const dispatch = useDispatch();
 
     const [cityOpen, setCityOpen] = useState(true);
